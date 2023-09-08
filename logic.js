@@ -41,11 +41,17 @@ function game(){
         })
 
         function handleRoundResult(result){
-            scoreDiv.textContent = 'Player: ${playerScore} - Computer: ${computerScore}';
+            if (result.includes("Player Wins")){
+                playerScore++;
+            } else if (result.includes("You lose")) {
+                computerScore++;
+            }
+
+            scoreDiv.textContent = `Player: ${playerScore} - Computer: ${computerScore}`;
             resultsDiv.textContent = result;
 
             if (playerScore === 5 || computerScore === 5){
-                if (playerScore === 5){
+                if (playerScore === 5) {
                     resultsDiv.textContent = "Player Wins the Game!";
                 } else {
                     resultsDiv.textContent = "Computer Wins the Game!";

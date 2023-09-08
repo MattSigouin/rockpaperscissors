@@ -1,10 +1,12 @@
 
 function game(){
-        function getComputerChoice(){
-            const choices = ['rock', 'paper', 'scissors'];
-            const randomIndex = Math.floor(Math.random() * choices.length);
-            return choices[randomIndex]
-        }
+    const choices = ["rock", "paper", "scissors"];
+    const buttons = document.querySelectorAll("button");
+    const resultsDiv = document.getElementById("results");
+    const scoreDiv = document.getElementById("score");
+
+    let playerScore = 0;
+    let computerScore = 0;
 
         function playRound(playerSelection, computerSelection){
             if (playerSelection === computerSelection) {
@@ -19,20 +21,41 @@ function game(){
                 return "Player Wins. Paper beats rock."
             } else if (computerSelection === 'paper' && playerSelection === 'scissors'){
                 return "Player Wins! Scissors beats paper."
-            } else (computerSelection === 'scissors' && playerSelection === 'rock')
-            
-            {
+            } else if (computerSelection === 'scissors' && playerSelection === 'rock'){
                 return "Player Wins! Rock beats scissors."
             } 
         }
 
+        function getComputerChoice(){
+            const randomIndex = Math.floor(Math.random() * choices.length);
+            return choices[randomIndex]
+        }
 
-        for (let i = 0; i < 5; i++){
-        const playerSelection = prompt("Do you choose rock, paper, or scissors").toLowerCase();
-        const computerSelection = getComputerChoice();
+        buttons.forEach((button) => {
+            button.addEventListener("click", ()=> {
+                const playerSelection = button.id;
+                const computerSelection = getComputerChoice();
+                const result = playRound(playerSelection, computerSelection);
+                handleRoundResult(result);
+            })
+        })
 
-console.log(playRound(playerSelection, computerSelection))
+        function handleRoundResult(result){
+            scoreDiv.textContent = 'Player: ${playerScore} - Computer: ${computerScore}';
+            resultsDiv.textContent = result;
+
+            if (playerScore === 5 || computerScore === 5){
+                if (playerScore === 5){
+                    resultsDiv.textContent = "Player Wins the Game!";
+                } else {
+                    resultsDiv.textContent = "Computer Wins the Game!";
+                }
+
+                buttons.forEach((button) => {
+                    button.disabled = true;
+                })
+            }
+        }
     }
-}
 
 game();
